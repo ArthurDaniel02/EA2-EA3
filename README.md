@@ -37,7 +37,7 @@ Este projeto visa integrar conceitos de desenvolvimento web, atendendo aos segui
 | **Backend** | [Node.js](https://nodejs.org/), [Express](https://expressjs.com/) |
 | **Banco de Dados** | [MongoDB Atlas](https://www.mongodb.com/atlas) (Nuvem), [Mongoose](https://mongoosejs.com/) |
 | **Linguagem** | JavaScript (ES6+)|
-| **Deploy** | [Vercel] (https://vercel.com/) |
+| **Deploy** | [Vercel](https://vercel.com/) |
 
 
 ---
