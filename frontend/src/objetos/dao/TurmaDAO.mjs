@@ -2,7 +2,7 @@ import Turma from "../entidades/Turma.mjs";
 
 export default class TurmaDAO {
     constructor() {
-        this.baseUrl = "https://rpgeducacional.vercel.app";
+        this.baseUrl = "https://rpgeducacional.vercel.app/turmas";
         this.cache = [];
     }
       

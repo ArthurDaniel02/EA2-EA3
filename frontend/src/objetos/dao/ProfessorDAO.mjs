@@ -2,7 +2,7 @@ import Professor from "../entidades/Professor.mjs";
 
 export default class ProfessorDAO {
     constructor() {
-        this.baseUrl = "https://rpgeducacional.vercel.app"; 
+        this.baseUrl = "https://rpgeducacional.vercel.app/professores"; 
         this.cache = []; 
     }
       
