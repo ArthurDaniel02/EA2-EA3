@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout"; 
 
-import Home from "../pages/home";
+import Home from "../pages/Home";
 import GerenciarTurmas from "../pages/GerenciarTurmas";
 import GerenciarQuests from "../pages/GerenciarQuests";
 import GerenciarProfessores from "../pages/GerenciarProfessores";
