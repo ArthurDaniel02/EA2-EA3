@@ -8,7 +8,7 @@ const rotaTurmas = require('./src/routes/turmas');
 const rotaQuests = require('./src/routes/quests');
 
 const app = express();
-
+const PORT = process.env.PORT || 3000;
 
 app.use(cors()); 
 app.use(express.json()); 

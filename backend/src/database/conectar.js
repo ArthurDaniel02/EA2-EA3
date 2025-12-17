@@ -1,15 +1,13 @@
 const mongoose = require('mongoose');
 
-const conectar = async () => {
+async function conectar() {
     try {
 
-        const connectionString = 'mongodb+srv://admin:admin123@cluster0.takrhvm.mongodb.net/rpg_educacional?appName=Cluster0';
-        
-        await mongoose.connect(connectionString);
-        console.log('✅ MongoDB Conectado com Sucesso!');
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("✅ Conectado ao MongoDB Atlas com sucesso!");
     } catch (error) {
-        console.error('❌ Erro ao conectar:', error);
+        console.error("❌ Erro ao conectar no MongoDB:", error);
     }
-};
+}
 
 module.exports = conectar;
