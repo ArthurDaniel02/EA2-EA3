@@ -16,7 +16,7 @@ export default function Navbar() {
       }}
     >
       <h2 style={{ margin: 0, fontSize: '20px', color: '#1890ff' }}>
-        🛡️ RPG Educacional - Painel Administrativo
+        🛡️ RPG Educacional
       </h2>
     </Header>
   );

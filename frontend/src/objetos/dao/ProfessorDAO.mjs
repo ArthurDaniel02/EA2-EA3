@@ -26,7 +26,30 @@ export default class ProfessorDAO {
         }
         return this.cache;
     }
+    async atualizar(id, novoProfessor) {
+        try {
+            const obj = this.toPlain(novoProfessor);
+            delete obj.id; 
 
+            const resp = await fetch(`${this.baseUrl}/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(obj),
+            });
+
+            if (!resp.ok) throw new Error("Erro ao atualizar Professor");
+
+            const data = await resp.json();
+            const atualizado = this.mapProfessor(data);
+            const idx = this.cache.findIndex((p) => p.getId() === id);
+            if (idx >= 0) this.cache[idx] = atualizado;
+
+            return atualizado;
+        } catch (e) {
+            console.error("Erro ao atualizar Professor:", e);
+            throw e;
+        }
+    }
     async salvar(professor) {
         try {
 
@@ -52,14 +75,9 @@ export default class ProfessorDAO {
     }
 
     async excluir(id) {
-        try {
-            const resp = await fetch(`${this.baseUrl}/${id}`, { method: "DELETE" });
-            if (!resp.ok) throw new Error("Erro ao excluir Professor");
-            this.cache = this.cache.filter((p) => p.getId() !== id);
-        } catch (e) {
-            console.error("Erro ao excluir Professor:", e);
-            throw e;
-        }
+        const resp = await fetch(`${this.baseUrl}/${id}`, { method: "DELETE" });
+        if (!resp.ok) throw new Error("Erro ao excluir");
+        this.cache = this.cache.filter((p) => p.getId() !== id);
     }
 
     mapProfessor(prof) {

@@ -1,14 +1,13 @@
 import React from 'react';
 import { Table, Button, Popconfirm, Tag, Space } from 'antd';
-import { DeleteOutlined, EditOutlined, UserOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, UserOutlined, PhoneOutlined } from '@ant-design/icons';
 
-export default function TabelaProfessores({ dados, loading, aoExcluir }) {
+export default function TabelaProfessores({ dados, loading, aoExcluir, aoEditar }) {
   
   const columns = [
     {
       title: 'Nome',
       key: 'nome',
-
       render: (_, record) => (
         <Space>
           <UserOutlined style={{ color: '#1890ff' }} />
@@ -17,9 +16,18 @@ export default function TabelaProfessores({ dados, loading, aoExcluir }) {
       ),
     },
     {
-      title: 'E-mail',
-      key: 'email',
-      render: (_, record) => record.getEmail(),
+      title: 'Contato', 
+      key: 'contato',
+      render: (_, record) => (
+        <div style={{ display: 'flex', flexDirection: 'column', fontSize: '13px' }}>
+            <span>{record.getEmail()}</span>
+            {record.getTelefone() && (
+                <span style={{ color: '#888' }}>
+                    <PhoneOutlined /> {record.getTelefone()}
+                </span>
+            )}
+        </div>
+      ),
     },
     {
       title: 'Especialidade',
@@ -41,18 +49,15 @@ export default function TabelaProfessores({ dados, loading, aoExcluir }) {
       },
     },
     {
-      title: 'Telefone',
-      key: 'telefone',
-      render: (_, record) => record.getTelefone() || '-',
-    },
-    {
       title: 'Ações',
       key: 'acoes',
       align: 'center',
       render: (_, record) => (
         <Space size="middle">
-          {/* Botão de Editar (apenas visual por enquanto) */}
-          <Button icon={<EditOutlined />} />
+          <Button 
+            icon={<EditOutlined />} 
+            onClick={() => aoEditar(record)} 
+          />
           
           <Popconfirm
             title="Tem certeza que deseja excluir este professor?"
@@ -72,9 +77,9 @@ export default function TabelaProfessores({ dados, loading, aoExcluir }) {
     <Table 
       columns={columns} 
       dataSource={dados} 
-      rowKey={(record) => record.getId()} // Importante: Usa o ID como chave única
+      rowKey={(record) => record.getId()} 
       loading={loading}
-      pagination={{ pageSize: 5 }} // Paginação automática
+      pagination={{ pageSize: 5 }} 
     />
   );
 }

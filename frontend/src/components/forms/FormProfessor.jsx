@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, Button, Select } from 'antd';
-import { UserOutlined, MailOutlined, TrophyOutlined } from '@ant-design/icons';
+import { UserOutlined, MailOutlined, TrophyOutlined, PhoneOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
-export default function FormProfessor({ aoSalvar }) {
+export default function FormProfessor({ aoSalvar, dadosEdicao }) {
     const [form] = Form.useForm();
 
+    useEffect(() => {
+        if (dadosEdicao) {
+            const getVal = (metodo, prop) => {
+                if (dadosEdicao[metodo] && typeof dadosEdicao[metodo] === 'function') {
+                    return dadosEdicao[metodo]();
+                }
+                return dadosEdicao[prop] || "";
+            };
+
+            form.setFieldsValue({
+                nome: getVal('getNome', 'nome'),
+                email: getVal('getEmail', 'email'),
+                especialidade: getVal('getEspecialidade', 'especialidade'),
+                nivel: getVal('getNivel', 'nivel'),
+                telefone: getVal('getTelefone', 'telefone') 
+            });
+        } else {
+            form.resetFields(); 
+         }
+    }, [dadosEdicao, form]);
+    
+
     const onFinish = (values) => {
-        // O Ant Design entrega 'values' como: { nome: 'João', email: '...', nivel: 'Mestre' }
         aoSalvar(values);
-        form.resetFields(); // Limpa o formulário após salvar
+        if (!dadosEdicao) form.resetFields();
     };
 
     return (
@@ -18,15 +39,15 @@ export default function FormProfessor({ aoSalvar }) {
             form={form}
             layout="vertical"
             onFinish={onFinish}
-            initialValues={{ nivel: "Iniciante" }} // Valor padrão
+            initialValues={{ nivel: "Iniciante" }}
         >
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <Form.Item
                     name="nome"
                     label="Nome Completo"
-                    rules={[{ required: true, message: 'Por favor, insira o nome!' }]}
+                    rules={[{ required: true, message: 'Insira o nome!' }]}
                 >
-                    <Input prefix={<UserOutlined />} placeholder="Ex: Gandalf, o Cinzento" />
+                    <Input prefix={<UserOutlined />} placeholder="Ex: Insira o nome" />
                 </Form.Item>
 
                 <Form.Item
@@ -37,7 +58,7 @@ export default function FormProfessor({ aoSalvar }) {
                         { type: 'email', message: 'E-mail inválido!' }
                     ]}
                 >
-                    <Input prefix={<MailOutlined />} placeholder="gandalf@mordor.com" />
+                    <Input prefix={<MailOutlined />} placeholder="email@exemplo.com" />
                 </Form.Item>
             </div>
 
@@ -45,36 +66,35 @@ export default function FormProfessor({ aoSalvar }) {
                 <Form.Item
                     name="especialidade"
                     label="Especialidade"
-                    rules={[{ required: true, message: 'Qual a matéria?' }]}
+                    rules={[{ required: true, message: 'Insira a matéria' }]}
                 >
-                    <Input prefix={<TrophyOutlined />} placeholder="Ex: Defesa contra as Artes das Trevas" />
+                    <Input prefix={<TrophyOutlined />} placeholder="Ex: Matemática" />
                 </Form.Item>
 
                 <Form.Item
                     name="nivel"
-                    label="Nível de Experiência"
+                    label="Nível"
                     rules={[{ required: true }]}
                 >
-                    <Select placeholder="Selecione o nível">
+                    <Select placeholder="Selecione">
                         <Option value="Iniciante">Nível Iniciante</Option>
                         <Option value="Mestre">Nível Mestre</Option>
                         <Option value="Doutor">Nível Doutor</Option>
-                        <Option value="Arquimago">Nível Arquimago (RPG)</Option>
+                        <Option value="Arquimago">Nível Arquimago</Option>
                     </Select>
                 </Form.Item>
-                
-                <Form.Item
+            </div>
+            <Form.Item
                 name="telefone"
                 label="Telefone / WhatsApp"
                 rules={[{ required: true, message: 'Insira um contato' }]}
             >
-                <Input placeholder="(99) 99999-9999" />
+                <Input prefix={<PhoneOutlined />} placeholder="(99) 99999-9999" />
             </Form.Item>
-            </div>
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" block size="large">
-                    Cadastrar Professor
+                    {dadosEdicao ? "Atualizar Professor" : "Cadastrar Professor"}
                 </Button>
             </Form.Item>
         </Form>

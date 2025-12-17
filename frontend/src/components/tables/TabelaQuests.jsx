@@ -1,60 +1,51 @@
 import React from 'react';
 import { Table, Button, Popconfirm, Tag, Space } from 'antd';
-import { DeleteOutlined, TrophyOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, TrophyOutlined, ClockCircleOutlined, TeamOutlined } from '@ant-design/icons';
 
-export default function TabelaQuests({ dados, loading, aoExcluir }) {
+export default function TabelaQuests({ dados, loading, aoExcluir, aoEditar }) {
 
   const columns = [
     {
-      title: 'Título da Quest',
+      title: 'Título',
       key: 'titulo',
-      render: (_, record) => (
-        <span style={{ fontWeight: '500' }}>{record.getTitulo()}</span>
-      ),
+      render: (_, r) => <span style={{ fontWeight: '500' }}>{r.getTitulo()}</span>,
     },
     {
-      title: 'Recompensa (XP)',
+      title: 'XP',
       key: 'xp',
       align: 'center',
-      render: (_, record) => (
-        <Tag icon={<TrophyOutlined />} color="cyan">
-          {record.getXp()} XP
-        </Tag>
-      ),
+      render: (_, r) => <Tag icon={<TrophyOutlined />} color="cyan">{r.getXp()} XP</Tag>,
     },
     {
       title: 'Dificuldade',
       key: 'dificuldade',
       align: 'center',
-      render: (_, record) => {
-        const dif = record.getDificuldade();
+      render: (_, r) => {
+        const dif = r.getDificuldade();
         let color = 'blue';
         if (dif === 'Fácil') color = 'green';
-        if (dif === 'Difícil') color = 'orange';
         if (dif === 'Lendária') color = 'red';
         return <Tag color={color}>{dif}</Tag>;
       }
     },
-    {
+   {
       title: 'Prazo',
       key: 'dataEntrega',
       render: (_, record) => {
         const data = record.getDataEntrega();
         if (!data) return '-';
-        return (
-            <Space>
-                <ClockCircleOutlined />
-                {new Date(data).toLocaleDateString('pt-BR')}
-            </Space>
-        );
+        return new Date(data).toLocaleDateString('pt-BR');
       },
     },
     {
       title: 'Turma',
       key: 'turma',
-      render: (_, record) => {
-          const turma = record.getTurma();
-          return turma ? turma.getNome() : '-';
+      render: (_, r) => {
+          const turma = r.getTurma();
+          if (!turma) return '-';
+          if (typeof turma.getNome === 'function') return <Tag icon={<TeamOutlined />}>{turma.getNome()}</Tag>;
+          if (turma.nome) return <Tag icon={<TeamOutlined />}>{turma.nome}</Tag>;
+          return <span style={{fontSize:'12px'}}>ID: {turma}</span>;
       }
     },
     {
@@ -62,24 +53,21 @@ export default function TabelaQuests({ dados, loading, aoExcluir }) {
       key: 'acoes',
       align: 'center',
       render: (_, record) => (
-        <Popconfirm
-          title="Remover Quest?"
-          onConfirm={() => aoExcluir(record.getId())}
-          okText="Sim"
-          cancelText="Não"
-        >
-           <Button type="primary" danger shape="circle" icon={<DeleteOutlined />} />
-        </Popconfirm>
+        <Space>
+            <Button icon={<EditOutlined />} onClick={() => aoEditar(record)} />
+
+            <Popconfirm
+                title="Remover?"
+                onConfirm={() => aoExcluir(record.getId())}
+                okText="Sim"
+                cancelText="Não"
+            >
+                <Button type="primary" danger icon={<DeleteOutlined />} />
+            </Popconfirm>
+        </Space>
       ),
     },
   ];
 
-  return (
-    <Table 
-      columns={columns} 
-      dataSource={dados} 
-      rowKey={(record) => record.getId()} 
-      loading={loading}
-    />
-  );
+  return <Table columns={columns} dataSource={dados} rowKey={(r) => r.getId()} loading={loading} />;
 }

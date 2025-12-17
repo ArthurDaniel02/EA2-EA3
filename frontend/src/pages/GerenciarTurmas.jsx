@@ -2,20 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Button, message, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-// Componentes
 import TabelaTurmas from '../components/tables/TabelaTurmas';
 import FormTurma from '../components/forms/FormTurma';
-
-// Objetos
 import TurmaDAO from '../objetos/dao/TurmaDAO.mjs';
 import ProfessorDAO from '../objetos/dao/ProfessorDAO.mjs';
 import Turma from '../objetos/entidades/Turma.mjs';
 
 export default function GerenciarTurmas() {
   const [turmas, setTurmas] = useState([]);
-  const [professores, setProfessores] = useState([]); // Necessário para o Select do Form
+  const [professores, setProfessores] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [turmaEmEdicao, setTurmaEmEdicao] = useState(null);
 
   const turmaDAO = new TurmaDAO();
   const profDAO = new ProfessorDAO();
@@ -23,7 +21,6 @@ export default function GerenciarTurmas() {
   const carregarDados = async () => {
     setLoading(true);
     try {
-      // Carrega turmas e professores em paralelo
       const [listaTurmas, listaProfessores] = await Promise.all([
         turmaDAO.listar(),
         profDAO.listar()
@@ -41,26 +38,52 @@ export default function GerenciarTurmas() {
     carregarDados();
   }, []);
 
+  const prepararEdicao = (turma) => {
+    setTurmaEmEdicao(turma);
+    setIsModalOpen(true);
+  };
+
+  const abrirModalNovo = () => {
+    setTurmaEmEdicao(null);
+    setIsModalOpen(true);
+  };
+
   const salvarTurma = async (values) => {
     try {
-      // Cria a entidade Turma. Note que values.professor é o ID vindo do Select.
-      const novaTurma = new Turma(
-        null,
-        values.nome,
-        values.codigo,
-        values.semestre,
-        values.descricao,
-        values.ativa,
-        values.professor 
-      );
+      if (turmaEmEdicao) {
 
-      await turmaDAO.salvar(novaTurma);
-      message.success('Turma criada com sucesso!');
+        const turmaAtualizada = new Turma(
+            turmaEmEdicao.getId(),
+            values.nome,
+            values.codigo,
+            values.semestre,
+            values.descricao,
+            values.ativa,
+            values.professor 
+        );
+        await turmaDAO.atualizar(turmaEmEdicao.getId(), turmaAtualizada);
+        message.success('Turma atualizada!');
+      } else {
+  
+        const novaTurma = new Turma(
+          null,
+          values.nome,
+          values.codigo,
+          values.semestre,
+          values.descricao,
+          values.ativa,
+          values.professor 
+        );
+        await turmaDAO.salvar(novaTurma);
+        message.success('Turma criada!');
+      }
+      
       setIsModalOpen(false);
+      setTurmaEmEdicao(null);
       carregarDados();
     } catch (erro) {
       console.error(erro);
-      message.error('Erro ao salvar turma.');
+      message.error('Erro ao salvar.');
     }
   };
 
@@ -78,7 +101,7 @@ export default function GerenciarTurmas() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
         <h2>📚 Gestão de Turmas</h2>
-        <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsModalOpen(true)}>
+        <Button type="primary" icon={<PlusOutlined />} onClick={abrirModalNovo}>
           Nova Turma
         </Button>
       </div>
@@ -86,18 +109,20 @@ export default function GerenciarTurmas() {
       <TabelaTurmas 
         dados={turmas} 
         loading={loading} 
-        aoExcluir={excluirTurma} 
+        aoExcluir={excluirTurma}
+        aoEditar={prepararEdicao} 
       />
 
       <Modal
-        title="Criar Nova Turma"
+        title={turmaEmEdicao ? "Editar Turma" : "Criar Nova Turma"}
         open={isModalOpen}
         footer={null}
         onCancel={() => setIsModalOpen(false)}
       >
         <FormTurma 
             aoSalvar={salvarTurma} 
-            professores={professores} // Passamos a lista pro Select funcionar
+            professores={professores}
+            dadosEdicao={turmaEmEdicao} 
         />
       </Modal>
     </div>

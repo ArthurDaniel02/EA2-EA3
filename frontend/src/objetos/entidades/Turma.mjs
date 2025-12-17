@@ -5,7 +5,7 @@ export default class Turma {
     #semestre;
     #descricao;
     #ativa;
-    #professor; // ADICIONADO: A turma precisa ter um dono
+    #professor; 
 
     constructor(id, nome, codigo, semestre, descricao, ativa, professor) {
         this.#id = id;
@@ -35,7 +35,6 @@ export default class Turma {
     getAtiva() { return this.#ativa; }
     setAtiva(ativa) { this.#ativa = ativa; }
 
-    // ADICIONADO: Getter e Setter do Professor
     getProfessor() { return this.#professor; }
     setProfessor(professor) { this.#professor = professor; }
 
@@ -47,7 +46,7 @@ export default class Turma {
             semestre: this.#semestre,
             descricao: this.#descricao,
             ativa: this.#ativa,
-            professor: this.#professor // Envia o ID ou Objeto pro back
+            professor: this.#professor 
         };
     }
 }

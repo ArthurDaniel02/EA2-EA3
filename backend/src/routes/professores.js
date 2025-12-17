@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const dao = require('../dao/ProfessorDAO');
+const Professor = require('../models/Professor');
+const Turma = require('../models/Turma');
+const Quest = require('../models/Quest');
 
 router.get('/', async (req, res) => {
     const lista = await dao.listar();
@@ -22,8 +25,21 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-    await dao.excluir(req.params.id);
-    res.json({ message: 'Excluído com sucesso' });
+    try {
+        const id = req.params.id;
+        const turmasDoProf = await Turma.find({ professor: id });
+        const idsTurmas = turmasDoProf.map(t => t._id);
+
+        if (idsTurmas.length > 0) {
+            await Quest.deleteMany({ turma: { $in: idsTurmas } });
+            await Turma.deleteMany({ professor: id });
+        }
+        await Professor.findByIdAndDelete(id);
+
+        res.json({ message: 'Professor e todos os dados vinculados foram excluídos!' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 module.exports = router;

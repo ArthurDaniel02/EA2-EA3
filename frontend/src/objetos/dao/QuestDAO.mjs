@@ -19,8 +19,6 @@ export default class QuestDAO {
             return [];
         }
     }
-
-    // CORREÇÃO: Agora é async igual ao do Professor
     async listar() {
         if (!this.cache || this.cache.length === 0) {
             return await this.carregarLista();
@@ -64,7 +62,7 @@ export default class QuestDAO {
             const data = await resp.json();
             const atualizada = this.mapQuest(data);
 
-            const idx = this.cache.findIndex((q) => q.getId() === id); // Usa getId()
+            const idx = this.cache.findIndex((q) => q.getId() === id);
             if (idx >= 0) this.cache[idx] = atualizada;
             else this.cache.push(atualizada);
 
@@ -76,45 +74,36 @@ export default class QuestDAO {
     }
 
     async excluir(id) {
-        try {
-            const resp = await fetch(`${this.baseUrl}/${id}`, { method: "DELETE" });
-            if (!resp.ok) throw new Error("Erro ao excluir Quest");
-            this.cache = this.cache.filter((q) => q.getId() !== id); // Usa getId()
-        } catch (e) {
-            console.error("Erro ao excluir Quest:", e);
-        }
+        const resp = await fetch(`${this.baseUrl}/${id}`, { method: "DELETE" });
+        if (!resp.ok) throw new Error("Erro ao excluir");
+        this.cache = this.cache.filter((q) => q.getId() !== id);
     }
 
-    // Converte JSON do Back -> Objeto Quest
     mapQuest(q) {
-        // Garante que data venha certa
         const dataEntrega = q.dataEntrega ? new Date(q.dataEntrega) : null;
         
         return new Quest(
             q._id || q.id,
             q.titulo,
             q.descricao,
-            q.xp,          // Agora bate com a entidade
-            q.dificuldade, // Adicionado
-            dataEntrega,   // Agora bate com a entidade
+            q.xp,
+            q.dificuldade,
+            dataEntrega,
             q.turma 
         );
     }
 
-    // Converte Objeto Quest -> JSON pro Back
     toPlain(quest) {
         if (!quest) return {};
-
-        // Lógica para extrair só o ID da turma se for um objeto
         const turma = quest.getTurma();
         const turmaId = (turma && turma.id) ? turma.id : turma;
 
         return {
             titulo: quest.getTitulo(),
             descricao: quest.getDescricao(),
-            xp: quest.getXp(),                   // Corrigido (era getXpReward)
-            dificuldade: quest.getDificuldade(), // Corrigido
-            dataEntrega: quest.getDataEntrega(), // Corrigido (era getDataLimite)
+            xp: quest.getXp(),                   
+            dificuldade: quest.getDificuldade(), 
+            dataEntrega: quest.getDataEntrega(), 
             turma: turmaId 
         };
     }

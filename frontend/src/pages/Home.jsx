@@ -7,7 +7,6 @@ const { Title, Paragraph, Text } = Typography;
 const Home = () => {
   return (
     <div>
-      {/* Título Principal */}
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
         <Title level={2}>🛡️ RPG Educacional</Title>
         <Paragraph style={{ fontSize: '18px', color: '#555' }}>
@@ -18,7 +17,6 @@ const Home = () => {
         </Text>
       </div>
 
-      {/* Cards de Resumo */}
       <Row gutter={[16, 16]} style={{ marginBottom: '40px' }}>
         <Col xs={24} sm={8}>
           <Card bordered={false} style={{ textAlign: 'center', background: '#e6f7ff' }}>
@@ -55,13 +53,12 @@ const Home = () => {
         </Col>
       </Row>
 
-      {/* Área Explicativa com Timeline */}
       <Row gutter={[32, 32]}>
         <Col xs={24} md={12}>
           <Card title="🚀 Sobre o Projeto" bordered={false}>
             <Paragraph>
               Esta plataforma permite que professores gerenciem suas salas de aula de forma lúdica.
-              O sistema foi construído utilizando a stack <strong>MERN</strong> (MongoDB, Express, React, Node.js).
+              O sistema foi construído utilizando (MongoDB, Express, React, Node.js).
             </Paragraph>
             <Paragraph>
               <ul>

@@ -77,15 +77,9 @@ export default class TurmaDAO {
     }
 
     async excluir(id) {
-        try {
-            const resp = await fetch(`${this.baseUrl}/${id}`, { method: "DELETE" });
-            if (!resp.ok) throw new Error("Erro ao excluir Turma");
-            
-
-            this.cache = this.cache.filter((t) => t.getId() !== id);
-        } catch (e) {
-            console.error("Erro ao excluir Turma:", e);
-        }
+        const resp = await fetch(`${this.baseUrl}/${id}`, { method: "DELETE" });
+        if (!resp.ok) throw new Error("Erro ao excluir");
+        this.cache = this.cache.filter((t) => t.getId() !== id);
     }
 
     mapTurma(t) {
