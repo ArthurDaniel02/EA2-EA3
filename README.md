@@ -1,6 +1,6 @@
 # 🛡️ RPG Educacional (Fullstack)
 
-> Projeto desenvolvido para as avaliações **EA2 (Backend)** e **EA3 (Frontend)** da disciplina de Programação de Computadores.
+> Projeto desenvolvido para as avaliações **EA2 (Backend)** e **EA3 (Frontend)** da disciplina de Programação de Computadores 3.
 > Uma plataforma de gamificação escolar onde professores podem gerenciar turmas e lançar missões (quests) para os alunos.
 
 ---
@@ -151,5 +151,7 @@ Utilização de componentes profissionais:
 ## 🤝 Autores
 
 Desenvolvido por 
+
 **Arthur Daniel Ribeiro Pereira Dantas Lourenço - Danilo Moraes Borges Piquiá - Matheus Oliveira Gouveia Campos**
-para a disciplina de Programação de Computadores.
+
+para a disciplina de Programação de Computadores 3.
