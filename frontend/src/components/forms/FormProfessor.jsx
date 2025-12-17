@@ -80,7 +80,6 @@ export default function FormProfessor({ aoSalvar, dadosEdicao }) {
                         <Option value="Iniciante">Nível Iniciante</Option>
                         <Option value="Mestre">Nível Mestre</Option>
                         <Option value="Doutor">Nível Doutor</Option>
-                        <Option value="Arquimago">Nível Arquimago</Option>
                     </Select>
                 </Form.Item>
             </div>

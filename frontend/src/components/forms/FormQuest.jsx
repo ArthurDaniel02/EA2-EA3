@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Form, Input, Button, Select, InputNumber, DatePicker } from 'antd';
-import { RocketOutlined } from '@ant-design/icons';
-import dayjs from 'dayjs';
+import { BookOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs'; 
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -12,6 +12,7 @@ export default function FormQuest({ aoSalvar, turmas = [], dadosEdicao }) {
     useEffect(() => {
         if (dadosEdicao) {
             const getVal = (method, prop) => (dadosEdicao[method] ? dadosEdicao[method]() : dadosEdicao[prop]);
+
             const turmaObj = getVal('getTurma', 'turma');
             const turmaId = turmaObj ? (turmaObj.id || turmaObj._id || turmaObj) : null;
             const dataRaw = getVal('getDataEntrega', 'dataEntrega');
@@ -31,14 +32,16 @@ export default function FormQuest({ aoSalvar, turmas = [], dadosEdicao }) {
     }, [dadosEdicao, form]);
 
     const onFinish = (values) => {
-        const dadosFormatados = {
+        const dadosProntos = {
             ...values,
             dataEntrega: values.dataEntrega ? values.dataEntrega.toDate() : null
         };
         
-        aoSalvar(dadosFormatados);
+        aoSalvar(dadosProntos);
+        
         if (!dadosEdicao) form.resetFields();
     };
+ 
 
     return (
         <Form
@@ -48,11 +51,11 @@ export default function FormQuest({ aoSalvar, turmas = [], dadosEdicao }) {
             initialValues={{ dificuldade: "Normal", xp: 100 }}
         >
             <Form.Item name="titulo" label="Título" rules={[{ required: true }]}>
-                <Input prefix={<RocketOutlined />} placeholder="Ex: Insira o Título da Missão" />
+                <Input prefix={<BookOutlined />}  placeholder="Insira um título"/>
             </Form.Item>
 
             <Form.Item name="descricao" label="Descrição" rules={[{ required: true }]}>
-                <TextArea rows={4} placeholder="Ex: Insira a descrição da missão" />
+                <TextArea rows={4} />
             </Form.Item>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>

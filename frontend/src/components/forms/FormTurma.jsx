@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Form, Input, Button, Select, Switch } from 'antd';
-import { TeamOutlined, NumberOutlined } from '@ant-design/icons';
+import { TeamOutlined, NumberOutlined, DatabaseOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -41,21 +41,26 @@ export default function FormTurma({ aoSalvar, professores = [], dadosEdicao }) {
             layout="vertical"
             onFinish={onFinish}
             initialValues={{ ativa: true }}
-        >
-            <Form.Item name="nome" label="Nome da Turma" rules={[{ required: true }]}>
+        ><div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+               <Form.Item name="nome" label="Nome da Turma" rules={[{ required: true }]}>
                 <Input prefix={<TeamOutlined />} placeholder="Ex: Insira o nome da Turma" />
             </Form.Item>
+              <Form.Item name="ativa" label="Turma Ativa?" valuePropName="checked">
+                <Switch checkedChildren="Sim" unCheckedChildren="Não" />
+            </Form.Item>
+            </div>
+            
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <Form.Item name="codigo" label="Código" rules={[{ required: true }]}>
                     <Input prefix={<NumberOutlined />} placeholder="Ex: MAT-2025"/>
                 </Form.Item>
                 <Form.Item name="semestre" label="Semestre" rules={[{ required: true }]}>
-                    <Input prefix={<NumberOutlined />} placeholder="Ex: 2025/2"/>
+                    <Input prefix={<DatabaseOutlined />} placeholder="Ex: 2025/2"/>
                 </Form.Item>
             </div>
-
-            <Form.Item name="professor" label="Professor Responsável" rules={[{ required: true }]}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+               <Form.Item name="professor" label="Professor Responsável" rules={[{ required: true }]}>
                 <Select placeholder="Selecione...">
                     {professores.map((prof) => (
                         <Option key={prof.getId()} value={prof.getId()}>
@@ -68,11 +73,8 @@ export default function FormTurma({ aoSalvar, professores = [], dadosEdicao }) {
             <Form.Item name="descricao" label="Descrição">
                 <TextArea rows={3} />
             </Form.Item>
-
-            <Form.Item name="ativa" label="Turma Ativa?" valuePropName="checked">
-                <Switch checkedChildren="Sim" unCheckedChildren="Não" />
-            </Form.Item>
-
+            </div>
+            
             <Form.Item>
                 <Button type="primary" htmlType="submit" block size="large">
                     {dadosEdicao ? "Atualizar Turma" : "Criar Turma"}

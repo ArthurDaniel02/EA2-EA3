@@ -4,7 +4,7 @@ const turmaSchema = new mongoose.Schema({
     nome: { type: String, required: true },
     codigo: { type: String, required: true },
     semestre: { type: String, default: '2025.1' },
-    salaVirtual: { type: String },
+    descricao: { type: String },
     ativa: { type: Boolean, default: true },
     
     // RELACIONAMENTO: Uma turma pertence a um Professor
