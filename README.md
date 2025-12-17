@@ -4,6 +4,7 @@
 > Uma plataforma de gamificação escolar onde professores podem gerenciar turmas e lançar missões (quests).
 
 ---
+
 ## 🤝 Autores
 
 Desenvolvido por 
@@ -11,10 +12,12 @@ Desenvolvido por
 para a disciplina de Programação de Computadores 3.
 
 ---
+
 ## Link para o Projeto pelo Deploy no Vercel
 (https://rpgeducacionalfront.vercel.app)
 
 ---
+
 ## 🎯 Objetivo do Projeto
 
 Este projeto visa integrar conceitos de desenvolvimento web, atendendo aos seguintes requisitos acadêmicos:
@@ -34,7 +37,7 @@ Este projeto visa integrar conceitos de desenvolvimento web, atendendo aos segui
 | **Backend** | [Node.js](https://nodejs.org/), [Express](https://expressjs.com/) |
 | **Banco de Dados** | [MongoDB Atlas](https://www.mongodb.com/atlas) (Nuvem), [Mongoose](https://mongoosejs.com/) |
 | **Linguagem** | JavaScript (ES6+)|
-| **Deploy** | [Vercel] (vercel.com)|
+| **Deploy** | [Vercel] (https://vercel.com/) |
 
 
 ---
