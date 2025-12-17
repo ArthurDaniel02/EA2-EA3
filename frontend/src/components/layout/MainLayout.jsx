@@ -23,9 +23,8 @@ const MainLayout = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       
-      {/* BARRA LATERAL (SIDER) */}
       <Sider collapsible breakpoint="lg" width={220}>
-        {/* Logo Pequeno no topo do Menu */}
+
         <div style={{ height: 60, margin: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ fontSize: '24px' }}>🛡️</span>
         </div>
@@ -34,25 +33,21 @@ const MainLayout = () => {
           theme="dark" 
           mode="inline" 
           defaultSelectedKeys={['/']} 
-          selectedKeys={[location.pathname]} // Mantém o item selecionado após F5
+          selectedKeys={[location.pathname]}
           items={items} 
           onClick={(e) => navigate(e.key)} 
         />
       </Sider>
 
-      {/* CONTEÚDO PRINCIPAL */}
       <Layout>
-        {/* O TOPO */}
         <Navbar />
 
-        {/* O MIOLO (ONDE AS PÁGINAS APARECEM) */}
         <Content style={{ margin: '16px' }}>
           <div style={{ padding: 24, minHeight: 360, background: '#fff', borderRadius: '8px' }}>
             <Outlet />
           </div>
         </Content>
 
-        {/* O RODAPÉ */}
         <Footer />
       </Layout>
     </Layout>
