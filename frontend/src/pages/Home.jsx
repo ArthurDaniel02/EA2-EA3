@@ -13,7 +13,7 @@ const Home = () => {
           Sistema de Gamificação Escolar Fullstack
         </Paragraph>
         <Text type="secondary">
-          Projeto desenvolvido para as avaliações <strong>EA2 (Backend)</strong> e <strong>EA3 (Frontend)</strong> da disciplina de Programação de Computadores.
+          Projeto desenvolvido para as avaliações <strong>EA2 (Backend)</strong> e <strong>EA3 (Frontend)</strong> da disciplina de Programação de Computadores 3.
         </Text>
       </div>
 
@@ -48,7 +48,7 @@ const Home = () => {
               prefix={<RocketOutlined />}
               valueStyle={{ color: '#fa8c16' }}
             />
-            <Text type="secondary">Missões para alunos</Text>
+            <Text type="secondary">Missões para as Turmas</Text>
           </Card>
         </Col>
       </Row>
@@ -57,13 +57,13 @@ const Home = () => {
         <Col xs={24} md={12}>
           <Card title="🚀 Sobre o Projeto" bordered={false}>
             <Paragraph>
-              Esta plataforma permite que professores gerenciem suas salas de aula de forma lúdica.
+              Esta plataforma permite que professores gerenciem suas turmas e tarefas de forma lúdica.
               O sistema foi construído utilizando (MongoDB, Express, React, Node.js).
             </Paragraph>
             <Paragraph>
               <ul>
                 <li><strong>Backend (EA2):</strong> API RESTful com persistência em MongoDB Atlas.</li>
-                <li><strong>Frontend (EA3):</strong> Interface SPA com React e Ant Design.</li>
+                <li><strong>Frontend (EA3):</strong> Interface com React e Ant Design.</li>
                 <li><strong>Integração:</strong> Comunicação via Fetch API e padrão DAO.</li>
               </ul>
             </Paragraph>
@@ -80,7 +80,7 @@ const Home = () => {
                     <>
                       <Text strong>1. Cadastrar Professor</Text>
                       <br />
-                      <Text type="secondary" style={{ fontSize: '12px' }}>A base de tudo. Sem professor, não há turma.</Text>
+                      <Text type="secondary" style={{ fontSize: '12px' }}>Sem professor, não há turma.</Text>
                     </>
                   ),
                   dot: <UserOutlined />,
