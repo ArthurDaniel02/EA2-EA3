@@ -2,7 +2,7 @@ import Quest from "../entidades/Quest.mjs";
 
 export default class QuestDAO {
     constructor() {
-        this.baseUrl = "http://localhost:3000/quests";
+        this.baseUrl = "https://rpgeducacional.vercel.app";
         this.cache = [];
     }
       
