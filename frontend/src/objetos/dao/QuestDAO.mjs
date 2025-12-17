@@ -1,18 +1,9 @@
 import Quest from "../entidades/Quest.mjs";
 
 export default class QuestDAO {
-    constructor(id = null) {
+    constructor() {
         this.baseUrl = "http://localhost:3000/quests";
         this.cache = [];
-      
-        if (id) {
-            this.cache = [];
-            this.buscarPorId(id).then((quest) => {
-                if (quest) this.cache = [quest];
-            });
-        } else {
-            this.carregarLista();
-        }
     }
       
     async carregarLista() {
@@ -22,15 +13,17 @@ export default class QuestDAO {
 
             const data = await resp.json();
             this.cache = data.map((q) => this.mapQuest(q));
+            return this.cache;
         } catch (e) {
             console.error("Erro ao carregar lista Quests:", e);
-            this.cache = [];
+            return [];
         }
     }
 
-    listar() {
+    // CORREÇÃO: Agora é async igual ao do Professor
+    async listar() {
         if (!this.cache || this.cache.length === 0) {
-            this.carregarLista();
+            return await this.carregarLista();
         }
         return this.cache;
     }
@@ -53,7 +46,7 @@ export default class QuestDAO {
             return nova;
         } catch (e) {
             console.error("Erro ao salvar Quest:", e);
-            return null;
+            throw e;
         }
     }
 
@@ -71,7 +64,7 @@ export default class QuestDAO {
             const data = await resp.json();
             const atualizada = this.mapQuest(data);
 
-            const idx = this.cache.findIndex((q) => q.id === id);
+            const idx = this.cache.findIndex((q) => q.getId() === id); // Usa getId()
             if (idx >= 0) this.cache[idx] = atualizada;
             else this.cache.push(atualizada);
 
@@ -86,60 +79,43 @@ export default class QuestDAO {
         try {
             const resp = await fetch(`${this.baseUrl}/${id}`, { method: "DELETE" });
             if (!resp.ok) throw new Error("Erro ao excluir Quest");
-            this.cache = this.cache.filter((q) => q.id !== id);
+            this.cache = this.cache.filter((q) => q.getId() !== id); // Usa getId()
         } catch (e) {
             console.error("Erro ao excluir Quest:", e);
         }
     }
 
-
+    // Converte JSON do Back -> Objeto Quest
     mapQuest(q) {
-
-        const dataLimite = q.dataLimite ? new Date(q.dataLimite) : null;
+        // Garante que data venha certa
+        const dataEntrega = q.dataEntrega ? new Date(q.dataEntrega) : null;
         
         return new Quest(
-            q.id || q._id,
+            q._id || q.id,
             q.titulo,
             q.descricao,
-            q.xpReward,
-            dataLimite,
-            q.dificuldade,
+            q.xp,          // Agora bate com a entidade
+            q.dificuldade, // Adicionado
+            dataEntrega,   // Agora bate com a entidade
             q.turma 
         );
     }
 
-
+    // Converte Objeto Quest -> JSON pro Back
     toPlain(quest) {
         if (!quest) return {};
 
-
+        // Lógica para extrair só o ID da turma se for um objeto
         const turma = quest.getTurma();
         const turmaId = (turma && turma.id) ? turma.id : turma;
 
         return {
             titulo: quest.getTitulo(),
             descricao: quest.getDescricao(),
-            xpReward: quest.getXpReward(),
-            dataLimite: quest.getDataLimite(),
-            dificuldade: quest.getDificuldade(),
+            xp: quest.getXp(),                   // Corrigido (era getXpReward)
+            dificuldade: quest.getDificuldade(), // Corrigido
+            dataEntrega: quest.getDataEntrega(), // Corrigido (era getDataLimite)
             turma: turmaId 
         };
-    }
-
-    async buscarPorId(id) {
-        const existente = this.cache.find((q) => q.id === id);
-        if (existente) return existente;
-    
-        try {
-            const resp = await fetch(`${this.baseUrl}/${id}`);
-            if (!resp.ok) throw new Error("Erro ao buscar Quest por ID");
-            const data = await resp.json();
-            const quest = this.mapQuest(data);
-            this.cache.push(quest);
-            return quest;
-        } catch (e) {
-            console.error("Erro ao buscar Quest por ID:", e);
-            return null;
-        }
     }
 }

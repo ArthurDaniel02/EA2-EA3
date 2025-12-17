@@ -1,18 +1,9 @@
 import Turma from "../entidades/Turma.mjs";
 
 export default class TurmaDAO {
-    constructor(id = null) {
+    constructor() {
         this.baseUrl = "http://localhost:3000/turmas";
         this.cache = [];
-      
-        if (id) {
-            this.cache = [];
-            this.buscarPorId(id).then((turma) => {
-                if (turma) this.cache = [turma];
-            });
-        } else {
-            this.carregarLista();
-        }
     }
       
     async carregarLista() {
@@ -22,15 +13,17 @@ export default class TurmaDAO {
 
             const data = await resp.json();
             this.cache = data.map((t) => this.mapTurma(t));
+            return this.cache;
         } catch (e) {
             console.error("Erro ao carregar lista Turmas:", e);
-            this.cache = [];
+            return []; 
         }
     }
 
-    listar() {
+
+    async listar() {
         if (!this.cache || this.cache.length === 0) {
-            this.carregarLista();
+            return await this.carregarLista();
         }
         return this.cache;
     }
@@ -39,7 +32,8 @@ export default class TurmaDAO {
         try {
             const obj = this.toPlain(turma);
 
-            
+            delete obj.id; 
+
             const resp = await fetch(this.baseUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -53,7 +47,7 @@ export default class TurmaDAO {
             return nova;
         } catch (e) {
             console.error("Erro ao salvar Turma:", e);
-            return null;
+            throw e;
         }
     }
 
@@ -71,7 +65,7 @@ export default class TurmaDAO {
             const data = await resp.json();
             const atualizada = this.mapTurma(data);
 
-            const idx = this.cache.findIndex((t) => t.id === id);
+            const idx = this.cache.findIndex((t) => t.getId() === id); 
             if (idx >= 0) this.cache[idx] = atualizada;
             else this.cache.push(atualizada);
 
@@ -86,21 +80,21 @@ export default class TurmaDAO {
         try {
             const resp = await fetch(`${this.baseUrl}/${id}`, { method: "DELETE" });
             if (!resp.ok) throw new Error("Erro ao excluir Turma");
-            this.cache = this.cache.filter((t) => t.id !== id);
+            
+
+            this.cache = this.cache.filter((t) => t.getId() !== id);
         } catch (e) {
             console.error("Erro ao excluir Turma:", e);
         }
     }
 
-
     mapTurma(t) {
-
         return new Turma(
             t.id || t._id,
             t.nome,
             t.codigo,
             t.semestre,
-            t.salaVirtual,
+            t.descricao, 
             t.ativa,
             t.professor 
         );
@@ -109,34 +103,17 @@ export default class TurmaDAO {
     toPlain(turma) {
         if (!turma) return {};
         
-    
         const prof = turma.getProfessor();
+
         const profId = (prof && prof.id) ? prof.id : prof; 
 
         return {
             nome: turma.getNome(),
             codigo: turma.getCodigo(),
             semestre: turma.getSemestre(),
-            salaVirtual: turma.getSalaVirtual(),
+            descricao: turma.getDescricao(), 
             ativa: turma.getAtiva(),
             professor: profId 
         };
-    }
-
-    async buscarPorId(id) {
-        const existente = this.cache.find((t) => t.id === id);
-        if (existente) return existente;
-    
-        try {
-            const resp = await fetch(`${this.baseUrl}/${id}`);
-            if (!resp.ok) throw new Error("Erro ao buscar Turma por ID");
-            const data = await resp.json();
-            const turma = this.mapTurma(data);
-            this.cache.push(turma);
-            return turma;
-        } catch (e) {
-            console.error("Erro ao buscar Turma por ID:", e);
-            return null;
-        }
     }
 }

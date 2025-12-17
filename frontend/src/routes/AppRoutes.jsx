@@ -1,8 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout"; 
 
-import GerenciarTurmas from "../components/telas/GerenciarTurmas";
-import GerenciarQuests from "../components/telas/GerenciarQuests";
+import GerenciarTurmas from "../pages/GerenciarTurmas";
+import GerenciarQuests from "../pages/GerenciarQuests";
+import GerenciarProfessores from "../pages/GerenciarProfessores";
 
 const AppRoutes = () => {
   return (

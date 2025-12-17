@@ -1,14 +1,17 @@
+import React from 'react';
+import { Layout } from 'antd';
+
+const { Footer: AntFooter } = Layout;
+
 export default function Footer() {
-    return (
-      <footer className="bg-slate-900 text-gray-400 py-6 mt-8">
-        <div className="container mx-auto text-center">
-          <p className="mb-2">
-            &copy; 2025 Plataforma de RPG Educacional. Todos os direitos reservados.
-          </p>
-          <p className="text-sm">
-            Desenvolvido para a disciplina de Programação de Computadores 3.
-          </p>
-        </div>
-      </footer>
-    );
-  }
+  return (
+    <AntFooter style={{ textAlign: 'center', background: '#001529', color: '#b0b0b0' }}>
+      <p style={{ marginBottom: '8px', fontWeight: 'bold' }}>
+        &copy; 2025 Plataforma de RPG Educacional. Todos os direitos reservados.
+      </p>
+      <p style={{ fontSize: '12px', margin: 0, opacity: 0.8 }}>
+        Desenvolvido para a disciplina de Programação de Computadores 3.
+      </p>
+    </AntFooter>
+  );
+}

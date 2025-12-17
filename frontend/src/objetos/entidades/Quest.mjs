@@ -3,67 +3,41 @@ export default class Quest {
     #titulo;
     #descricao;
     #xp;
+    #dificuldade; 
     #dataEntrega;
-    #turma; // Isso vai guardar um objeto Turma ou o ID dela
+    #turma; 
 
-    constructor(id, titulo, descricao, xp, dataEntrega, turma) {
+    constructor(id, titulo, descricao, xp, dificuldade, dataEntrega, turma) {
         this.#id = id;
         this.#titulo = titulo;
         this.#descricao = descricao;
         this.#xp = xp;
+        this.#dificuldade = dificuldade;
         this.#dataEntrega = dataEntrega;
         this.#turma = turma;
     }
 
-    get id() { return this.#id; }
-    set id(novoId) { this.#id = novoId; }
+
+    getId() { return this.#id; }
+    setId(id) { this.#id = id; }
 
     getTitulo() { return this.#titulo; }
-    setTitulo(titulo) {
-        if (titulo) {
-            this.#titulo = titulo;
-            return true;
-        }
-        return false;
-    }
+    setTitulo(titulo) { this.#titulo = titulo; }
 
     getDescricao() { return this.#descricao; }
-    setDescricao(descricao) {
-        if (descricao) {
-            this.#descricao = descricao;
-            return true;
-        }
-        return false;
-    }
+    setDescricao(descricao) { this.#descricao = descricao; }
 
     getXp() { return this.#xp; }
-    setXp(xp) {
-        if (xp > 0) {
-            this.#xp = xp;
-            return true;
-        }
-        return false;
-    }
+    setXp(xp) { this.#xp = xp; }
+
+    getDificuldade() { return this.#dificuldade; }
+    setDificuldade(dificuldade) { this.#dificuldade = dificuldade; }
 
     getDataEntrega() { return this.#dataEntrega; }
-    setDataEntrega(data) {
-        if (data) {
-            this.#dataEntrega = data;
-            return true;
-        }
-        return false;
-    }
+    setDataEntrega(data) { this.#dataEntrega = data; }
 
-    // --- AQUI ESTÁ O RELACIONAMENTO ---
     getTurma() { return this.#turma; }
-    setTurma(turma) {
-        // Aceita apenas se for um objeto válido ou ID
-        if (turma) {
-            this.#turma = turma;
-            return true;
-        }
-        return false;
-    }
+    setTurma(turma) { this.#turma = turma; }
 
     toJSON() {
         return {
@@ -71,8 +45,9 @@ export default class Quest {
             titulo: this.#titulo,
             descricao: this.#descricao,
             xp: this.#xp,
+            dificuldade: this.#dificuldade,
             dataEntrega: this.#dataEntrega,
-            turma: this.#turma // Ao enviar pro back, envia o objeto ou ID
+            turma: this.#turma
         };
     }
 }

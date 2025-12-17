@@ -1,64 +1,98 @@
-import { useState } from "react";
-import Quest from "../../objetos/entidades/Quest.mjs";
+import React from 'react';
+import { Form, Input, Button, Select, InputNumber, DatePicker } from 'antd';
+import { RocketOutlined } from '@ant-design/icons';
 
-export default function FormQuest({ aoSalvar, listaTurmas }) {
-    const [titulo, setTitulo] = useState("");
-    const [xp, setXp] = useState(100);
-    const [turmaId, setTurmaId] = useState("");
+const { Option } = Select;
+const { TextArea } = Input;
 
-    const manipularEnvio = (e) => {
-        e.preventDefault();
+export default function FormQuest({ aoSalvar, turmas = [] }) {
+    const [form] = Form.useForm();
+
+    const onFinish = (values) => {
+        // O DatePicker retorna um objeto DayJS. Convertemos para Date nativo do JS.
+        const dadosFormatados = {
+            ...values,
+            dataEntrega: values.dataEntrega ? values.dataEntrega.toDate() : null
+        };
         
-        if (!turmaId) {
-            alert("Selecione uma turma para vincular a missão!");
-            return;
-        }
-        const novaQuest = new Quest(null, titulo, "Sem descrição", xp, new Date(), "Normal", turmaId);
-        
-        aoSalvar(novaQuest);
-        
-        setTitulo("");
-        setXp(100);
+        aoSalvar(dadosFormatados);
+        form.resetFields();
     };
 
     return (
-        <form onSubmit={manipularEnvio} className="bg-gray-100 p-4 rounded shadow mb-6">
-            <h3 className="font-bold mb-3">Nova Missão</h3>
-            <div className="flex gap-4">
-                <input 
-                    type="text" 
-                    placeholder="Título da Missão"
-                    className="border p-2 rounded w-full"
-                    value={titulo}
-                    onChange={e => setTitulo(e.target.value)}
-                    required
-                />
-                <input 
-                    type="number" 
-                    placeholder="XP"
-                    className="border p-2 rounded w-24"
-                    value={xp}
-                    onChange={e => setXp(e.target.value)}
-                    required
-                />
-                <select 
-                    className="border p-2 rounded w-full"
-                    value={turmaId}
-                    onChange={e => setTurmaId(e.target.value)}
-                    required
-                >
-                    <option value="">-- Selecione a Turma --</option>
-                    {listaTurmas.map((turma) => (
-                        <option key={turma.id} value={turma.id}>
-                            {turma.nome} ({turma.codigo})
-                        </option>
-                    ))}
-                </select>
+        <Form
+            form={form}
+            layout="vertical"
+            onFinish={onFinish}
+            initialValues={{ dificuldade: "Normal", xp: 100 }}
+        >
+            <Form.Item
+                name="titulo"
+                label="Título da Quest"
+                rules={[{ required: true, message: 'A missão precisa de um título!' }]}
+            >
+                <Input prefix={<RocketOutlined />} placeholder="Ex: Derrotar o Bug do Milênio" />
+            </Form.Item>
 
-                <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                    Salvar
-                </button>
+            <Form.Item
+                name="descricao"
+                label="Descrição da Missão"
+                rules={[{ required: true }]}
+            >
+                <TextArea rows={4} placeholder="Descreva o que os alunos devem fazer..." />
+            </Form.Item>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+                <Form.Item
+                    name="xp"
+                    label="XP (Recompensa)"
+                    rules={[{ required: true }]}
+                >
+                    <InputNumber min={0} style={{ width: '100%' }} />
+                </Form.Item>
+
+                <Form.Item
+                    name="dificuldade"
+                    label="Dificuldade"
+                    rules={[{ required: true }]}
+                >
+                    <Select>
+                        <Option value="Fácil">Fácil</Option>
+                        <Option value="Normal">Normal</Option>
+                        <Option value="Difícil">Difícil</Option>
+                        <Option value="Lendária">Lendária</Option>
+                    </Select>
+                </Form.Item>
+
+                <Form.Item
+                    name="dataEntrega"
+                    label="Data Limite"
+                    rules={[{ required: true, message: 'Selecione uma data!' }]}
+                >
+                    <DatePicker format="DD/MM/YYYY" style={{ width: '100%' }} />
+                </Form.Item>
             </div>
-        </form>
+
+            {/* Select Dinâmico de Turmas */}
+            <Form.Item
+                name="turma"
+                label="Atribuir à Turma"
+                rules={[{ required: true, message: 'A quest deve pertencer a uma turma!' }]}
+            >
+                <Select placeholder="Selecione a turma">
+                    {turmas.map((t) => (
+                        <Option key={t.getId()} value={t.getId()}>
+                            {t.getNome()}
+                        </Option>
+                    ))}
+                </Select>
+            </Form.Item>
+
+            <Form.Item>
+                <Button type="primary" htmlType="submit" block size="large">
+                    Lançar Quest
+                </Button>
+            </Form.Item>
+        </Form>
     );
 }
