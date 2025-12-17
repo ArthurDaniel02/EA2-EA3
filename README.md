@@ -151,7 +151,5 @@ Utilização de componentes profissionais:
 ## 🤝 Autores
 
 Desenvolvido por 
-
 **Arthur Daniel Ribeiro Pereira Dantas Lourenço - Danilo Moraes Borges Piquiá - Matheus Oliveira Gouveia Campos**
-
 para a disciplina de Programação de Computadores 3.
