@@ -4,13 +4,15 @@ export default class Professor {
     #email;
     #especialidade;
     #nivel;         
+    #telefone;
 
-    constructor(id, nome, email, especialidade, nivel) {
+    constructor(id, nome, email, especialidade, nivel,telefone) {
         this.#id = id;
         this.#nome = nome;
         this.#email = email;
         this.#especialidade = especialidade;
         this.#nivel = nivel;
+        this.#telefone = telefone;
     }
 
     getId() { return this.#id; }
@@ -28,6 +30,9 @@ export default class Professor {
     getNivel() { return this.#nivel; }
     setNivel(nivel) { this.#nivel = nivel; }
 
+    getTelefone() { return this.#telefone; }
+    setTelefone(telefone) { this.#telefone = telefone; }
+
    
     toJSON() {
         return {
@@ -35,7 +40,8 @@ export default class Professor {
             nome: this.#nome,
             email: this.#email,
             especialidade: this.#especialidade,
-            nivel: this.#nivel
+            nivel: this.#nivel,
+            telefone: this.#telefone
         };
     }
 }

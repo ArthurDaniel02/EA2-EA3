@@ -68,7 +68,8 @@ export default class ProfessorDAO {
             prof.nome, 
             prof.email, 
             prof.especialidade, 
-            prof.nivel || "Júnior"
+            prof.nivel || "Júnior",
+            prof.telefone
         );
     }
 
@@ -77,7 +78,8 @@ export default class ProfessorDAO {
             nome: professor.getNome(),
             email: professor.getEmail(),
             especialidade: professor.getEspecialidade(),
-            nivel: professor.getNivel()
+            nivel: professor.getNivel(),
+            telefone: professor.getTelefone()
         };
     }
 }

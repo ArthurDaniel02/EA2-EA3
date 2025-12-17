@@ -4,7 +4,8 @@ const professorSchema = new mongoose.Schema({
     nome: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     especialidade: { type: String, required: true },
-    nivel: { type: String, default: 'Iniciante' }
+    nivel: { type: String, default: 'Iniciante' },
+    telefone: { type: String, required: false }
 });
 
 module.exports = mongoose.model('Professor', professorSchema);

@@ -8,7 +8,7 @@ export default function TabelaProfessores({ dados, loading, aoExcluir }) {
     {
       title: 'Nome',
       key: 'nome',
-      // Renderiza usando o Getter da classe
+
       render: (_, record) => (
         <Space>
           <UserOutlined style={{ color: '#1890ff' }} />
@@ -39,6 +39,11 @@ export default function TabelaProfessores({ dados, loading, aoExcluir }) {
         
         return <Tag color={color}>{nivel.toUpperCase()}</Tag>;
       },
+    },
+    {
+      title: 'Telefone',
+      key: 'telefone',
+      render: (_, record) => record.getTelefone() || '-',
     },
     {
       title: 'Ações',

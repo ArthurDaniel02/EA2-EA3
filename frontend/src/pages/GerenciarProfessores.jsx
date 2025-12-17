@@ -42,7 +42,8 @@ export default function GerenciarProfessores() {
         values.nome,
         values.email,
         values.especialidade,
-        values.nivel
+        values.nivel,
+        values.telefone
       );
 
       await dao.salvar(novoProf);

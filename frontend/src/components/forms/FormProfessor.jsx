@@ -62,6 +62,14 @@ export default function FormProfessor({ aoSalvar }) {
                         <Option value="Arquimago">Nível Arquimago (RPG)</Option>
                     </Select>
                 </Form.Item>
+                
+                <Form.Item
+                name="telefone"
+                label="Telefone / WhatsApp"
+                rules={[{ required: true, message: 'Insira um contato' }]}
+            >
+                <Input placeholder="(99) 99999-9999" />
+            </Form.Item>
             </div>
 
             <Form.Item>
