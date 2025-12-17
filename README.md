@@ -1,13 +1,23 @@
 # 🛡️ RPG Educacional (Fullstack)
 
 > Projeto desenvolvido para as avaliações **EA2 (Backend)** e **EA3 (Frontend)** da disciplina de Programação de Computadores 3.
-> Uma plataforma de gamificação escolar onde professores podem gerenciar turmas e lançar missões (quests) para os alunos.
+> Uma plataforma de gamificação escolar onde professores podem gerenciar turmas e lançar missões (quests).
 
 ---
+## 🤝 Autores
 
+Desenvolvido por 
+**Arthur Daniel Ribeiro Pereira Dantas Lourenço - Danilo Moraes Borges Piquiá - Matheus Oliveira Gouveia Campos**
+para a disciplina de Programação de Computadores 3.
+
+---
+## Link para o Projeto pelo Deploy no Vercel
+(https://rpgeducacionalfront.vercel.app)
+
+---
 ## 🎯 Objetivo do Projeto
 
-Este projeto visa integrar conceitos avançados de desenvolvimento web, atendendo aos seguintes requisitos acadêmicos:
+Este projeto visa integrar conceitos de desenvolvimento web, atendendo aos seguintes requisitos acadêmicos:
 
 * **EA2 (Backend):** Implementação de uma API RESTful com persistência de dados em **MongoDB**.
 * **EA3 (Frontend):** Interface interativa em **ReactJS** consumindo a API.
@@ -24,6 +34,8 @@ Este projeto visa integrar conceitos avançados de desenvolvimento web, atendend
 | **Backend** | [Node.js](https://nodejs.org/), [Express](https://expressjs.com/) |
 | **Banco de Dados** | [MongoDB Atlas](https://www.mongodb.com/atlas) (Nuvem), [Mongoose](https://mongoosejs.com/) |
 | **Linguagem** | JavaScript (ES6+)|
+| **Deploy** | [Vercel] (vercel.com)|
+
 
 ---
 
@@ -52,14 +64,13 @@ O projeto foi organizado em camadas para separar responsabilidades:
    │  │  └─ entidades/      # Classes com atributos privados (#)
    │  ├─ pages/             # Telas principais (Professores, Turmas, Quests)
    │  └─ routes/            # Configuração de Rotas
-   ├─ index.html         
-   └─ main.jsx
+   └─ index.html  
 
 ```
 
 ---
 
-## 🚀 Como Executar o Projeto
+## 🚀 Como Executar o Projeto Localmente
 
 Este projeto é um monorepo. Você precisará de **dois terminais** abertos: um para o Backend e outro para o Frontend.
 
@@ -132,7 +143,7 @@ O sistema garante a consistência dos dados:
 Utilização de componentes profissionais:
 
 * **Tabelas** com paginação e tags coloridas.
-* **Modais** para formulários de cadastro.
+* **Formulários** para cadastro.
 * **Feedback** visual (mensagens de sucesso/erro e spinners de carregamento).
 * **Layout** responsivo com Sidebar e Navbar.
 
@@ -148,8 +159,3 @@ Utilização de componentes profissionais:
 
 ---
 
-## 🤝 Autores
-
-Desenvolvido por 
-**Arthur Daniel Ribeiro Pereira Dantas Lourenço - Danilo Moraes Borges Piquiá - Matheus Oliveira Gouveia Campos**
-para a disciplina de Programação de Computadores 3.
