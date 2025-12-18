@@ -14,7 +14,10 @@ para a disciplina de Programação de Computadores 3.
 ---
 
 ## Link para o Projeto pelo Deploy no Vercel
+front-end 
 (https://rpgeducacionalfront.vercel.app)
+back-end
+(https://rpgeducacional.vercel.app)
 
 ---
 
